@@ -20,9 +20,6 @@
       "dom"
     ],
     "paths": {
-      "@app/*": [
-        "src/app/*"
-      ],
       "@components/*": [
         "src/app/components/*"
       ],
@@ -34,6 +31,9 @@
       ],
       "@interceptors/*": [
         "src/app/interceptors/*"
+      ],
+      "@models/*": [
+        "src/app/models/*"
       ],
       "@pages/*": [
         "src/app/pages/*"
@@ -50,10 +50,14 @@
       "@pipes/*": [
         "src/app/pipes/*"
       ],
+      "@app/*": [
+        "src/app/*"
+      ],
     }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
-    "strictInjectionParameters": true
+    "strictInjectionParameters": true,
+    "strictTemplates": true,
   }
 }

@@ -1,0 +1,13 @@
+<h1>Cartões</h1>
+
+<a href="#" class="btn btn-primary">
+  Adicionar cartão
+</a>
+
+<ul>
+  <li *ngFor="let card of cards">
+    {{ card.name }}
+  </li>
+</ul>
+
+<pre>{{ cards | json }}</pre>

@@ -1,42 +1,33 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, LOCALE_ID } from '@angular/core';
-import { NgSelectModule, NgSelectConfig } from '@ng-select/ng-select';
+import { DecimalPipe, registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IMaskModule } from 'angular-imask';
-import { JwtModule } from '@auth0/angular-jwt';
-
-import * as moment from 'moment';
-import { registerLocaleData } from '@angular/common';
-import localePt from '@angular/common/locales/pt';
 import localePtExtra from '@angular/common/locales/extra/pt';
-
-import { ResponseInterceptor } from '@interceptors/response.interceptor';
-
-import { DecimalPipe } from '@angular/common';
-import { PluralizePipe } from '@pipes/pluralize.pipe';
-import { NullPipe } from '@pipes/null.pipe';
-
-import { TooltipDirective } from '@directives/tooltip.directive';
-
+import localePt from '@angular/common/locales/pt';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
-
-import { LayoutComponent } from '@components/layout/layout.component';
+import { CardIndexComponent } from '@app/pages/cards/card-index.component';
+import { JwtModule } from '@auth0/angular-jwt';
 import { EnvironmentLabelComponent } from '@components/environment-label/environment-label.component';
 import { FormControlErrorsComponent } from '@components/form-control-errors/form-control-errors.component';
+import { IconComponent } from '@components/icon/icon.component';
+import { LayoutComponent } from '@components/layout/layout.component';
+import { LoaderComponent } from '@components/loader/loader.component';
 import { ModalAlertComponent } from '@components/modal/modal-alert.component';
 import { ModalConfirmComponent } from '@components/modal/modal-confirm.component';
-import { ToastComponent } from '@components/toast/toast.component';
-import { LoaderComponent } from '@components/loader/loader.component';
-import { IconComponent } from '@components/icon/icon.component';
 import { PaginationComponent } from '@components/pagination/pagination.component';
-
-import { HomeComponent } from '@pages/home/home.component';
-
-import { TermsOfUseComponent } from '@pages/terms-of-use/terms-of-use.component';
+import { ToastComponent } from '@components/toast/toast.component';
+import { TooltipDirective } from '@directives/tooltip.directive';
+import { ResponseInterceptor } from '@interceptors/response.interceptor';
+import { NgSelectConfig, NgSelectModule } from '@ng-select/ng-select';
 import { Error404Component } from '@pages/error/error-404.component';
 import { Error500Component } from '@pages/error/error-500.component';
+import { TermsOfUseComponent } from '@pages/terms-of-use/terms-of-use.component';
+import { NullPipe } from '@pipes/null.pipe';
+import { PluralizePipe } from '@pipes/pluralize.pipe';
+import { IMaskModule } from 'angular-imask';
+import * as moment from 'moment';
 
 export function tokenGetter() {
   return localStorage.token;
@@ -59,7 +50,7 @@ registerLocaleData(localePt, 'pt-BR', localePtExtra);
     LoaderComponent,
     IconComponent,
     PaginationComponent,
-    HomeComponent,
+    CardIndexComponent,
     TermsOfUseComponent,
     Error404Component,
     Error500Component

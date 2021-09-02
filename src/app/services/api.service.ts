@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { DirectUpload } from '@rails/activestorage';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
-import { DirectUpload } from '@rails/activestorage';
 
 @Injectable({
   providedIn: 'root'
@@ -15,31 +16,27 @@ export class ApiService {
     private authService: AuthService,
   ) { }
 
-  get actionCableUrl() {
-    return `${environment.apiUrl}/cable?token=${this.authService.token}`;
-  };
-
-  get(url, params = {}) {
-    return this.parseRequest(this.httpClient.get(`${environment.apiUrl}/${url}`, this.getOptions(params)));
+  async get<T = any>(url: string, params = {}): Promise<T> {
+    return this.parseRequest<T>(this.httpClient.get<T>(`${environment.apiUrl}/${url}`, this.getOptions(params)));
   }
 
-  post(url, params = {}) {
-    return this.parseRequest(this.httpClient.post(`${environment.apiUrl}/${url}`, params, this.getOptions()));
+  async post<T = any>(url: string, params = {}): Promise<T> {
+    return this.parseRequest<T>(this.httpClient.post<T>(`${environment.apiUrl}/${url}`, params, this.getOptions()));
   }
 
-  put(url, params = {}) {
-    return this.parseRequest(this.httpClient.put(`${environment.apiUrl}/${url}`, params, this.getOptions()));
+  async put<T = any>(url: string, params = {}): Promise<T> {
+    return this.parseRequest<T>(this.httpClient.put<T>(`${environment.apiUrl}/${url}`, params, this.getOptions()));
   }
 
-  patch(url, params = {}) {
-    return this.parseRequest(this.httpClient.patch(`${environment.apiUrl}/${url}`, params, this.getOptions()));
+  async patch<T = any>(url: string, params = {}): Promise<T> {
+    return this.parseRequest<T>(this.httpClient.patch<T>(`${environment.apiUrl}/${url}`, params, this.getOptions()));
   }
 
-  delete(url, params = {}) {
-    return this.parseRequest(this.httpClient.delete(`${environment.apiUrl}/${url}`, this.getOptions({}, params)));
+  async delete<T = any>(url: string, params = {}): Promise<T> {
+    return this.parseRequest<T>(this.httpClient.delete<T>(`${environment.apiUrl}/${url}`, this.getOptions({}, params)));
   }
 
-  upload(control, file) {
+  upload(control: AbstractControl, file: Blob) {
     if (!file) return;
 
     const reader = new FileReader();
@@ -58,11 +55,11 @@ export class ApiService {
     });
   }
 
-  private parseRequest(request) {
+  private parseRequest<T>(request: any): T {
     return request
       .toPromise()
-      .then(response => this.successResponse(response))
-      .catch(response => this.errorResponse(response));
+      .then((success: T) => success)
+      .catch(this.errorResponse);
   }
 
   private getOptions(params = {}, body = {}) {
@@ -79,15 +76,11 @@ export class ApiService {
     };
   }
 
-  private successResponse(response) {
-    return response;
-  }
-
   private errorResponse(response) {
     switch (response.status) {
       case 401: {
         this.authService.clear();
-        this.router.navigate(['/']);
+        this.router.navigate(['/entrar']);
         break;
       }
       case 404: {
